@@ -9,17 +9,8 @@
 #define must_throw(T, f)     Moka::must::throoow<T>(__FILE__, __LINE__, #T, f)
 #define must_fail(m)         Moka::must::fail(__FILE__, __LINE__, m)
 
-#define R(x) "\e[31m" << (x) << "\e[0m"
-#define G(x) "\e[32m" << (x) << "\e[0m"
-#define Y(x) "\e[33m" << (x) << "\e[0m"
-
 namespace Moka
 {
-  // Representation helpers for types that print funny:
-  template<class T> const T& rep(const T& t) {return t;}
-  const char* rep(bool b) {return b ? "true" : "false";}
-  const char* rep(const std::nullptr_t&) {return "nullptr";}
-
   class Failure: public std::exception {
     const char* mFile;
     const int   mLine;
@@ -47,14 +38,14 @@ namespace Moka
     void equal(const char* f, int l, const A& a, const B& b) {
       if(a != b) {
         std::stringstream message;
-        message << "Expected " << G(rep(b)) << " but got " << R(rep(a));
+        message << "Expected " << cli::g(b) << " but got " << cli::r(a);
         throw new Failure(f, l, message.str());
       }
     }
 
     void fail(const char* f, int l,  const char* m) {
       std::stringstream message;
-      message << R(m);
+      message << cli::r(m);
       throw new Failure(f, l, message.str());
     }
 
@@ -62,7 +53,7 @@ namespace Moka
     void not_equal(const char* f, int l, const A& a, const B& b) {
       if(a == b) {
         std::stringstream message;
-        message << "Expected anything but " << R(rep(b)) << " but got " << R(rep(a));
+        message << "Expected anything but " << cli::r(b) << " but got " << cli::r(a);
         throw new Failure(f, l, message.str());
       }
     }
@@ -78,19 +69,15 @@ namespace Moka
       }
       catch(std::exception& e) {
         std::stringstream message;
-        message << "Expected to catch a " << G(type) << " but got " << R(e.what());
+        message << "Expected to catch a " << cli::g(type) << " but got " << cli::r(e.what());
         throw new Failure(f, l, message.str());
       }
 
       std::stringstream message;
-      message << "Expected to catch a " << G(type) << " but nothing was thrown!";
+      message << "Expected to catch a " << cli::g(type) << " but nothing was thrown!";
       throw new Failure(f, l, message.str());
     }
   }
 }
-
-#undef R
-#undef G
-#undef Y
 
 #endif

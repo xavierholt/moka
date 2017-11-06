@@ -38,7 +38,7 @@ namespace Moka
     int report(int) {
       if(mError) {
         std::cout << "in " << mName << "\n";
-        if(mError->file()) std::cout << "  in \e[1m" << mError->file() << ':' << mError->line() << "\e[0m\n";
+        if(mError->file()) std::cout << "  in " << cli::bold(mError->file()) << ':' << mError->line() << "\n";
         std::cout << "    " << mError->what() << "\n\n";
         return 1;
       }
@@ -52,15 +52,15 @@ namespace Moka
 
       try {
         mFunction();
-        std::cout << "\e[1;32m✔ \e[0m" << mName << "\n";
+        std::cout << cli::g("✔ ", true) << mName << "\n";
       }
       catch(Failure* error) {
-        std::cout << "\e[1;31m✘ \e[0m" << mName << "\n";
+        std::cout << cli::r("✘ ", true) << mName << "\n";
         mError = error;
       }
       catch(std::exception& error) {
-        std::cout << "\e[1;33m▲ \e[0m" << mName << "\n";
-        mError = new Failure(std::string("Unexpected exception: ") + error.what());
+        std::cout << cli::y("▲ ", true) << mName << "\n";
+        mError = new Failure(std::string("Unexpected exception: ") + cli::y(error.what()));
       }
     }
   };
@@ -113,7 +113,7 @@ namespace Moka
 
     void test(int level = 0) {
       indent(level);
-      std::cout << "\e[1m" << mName << "\e[0m\n";
+      std::cout << cli::bold(mName) << "\n";
       if(mHasSetup) mSetup();
       for(auto m: mMembers) m->test(level + 1);
       if(mHasTeardown) mTeardown();
