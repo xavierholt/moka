@@ -48,14 +48,14 @@ namespace Moka
       if(a != b) {
         std::stringstream message;
         message << "Expected " << G(rep(b)) << " but got " << R(rep(a));
-        throw new Violation(f, l, message.str());
+        throw new Failure(f, l, message.str());
       }
     }
 
     void fail(const char* f, int l,  const char* m) {
       std::stringstream message;
       message << R(m);
-      throw new Violation(f, l, message.str());
+      throw new Failure(f, l, message.str());
     }
 
     template <class A, class B>
@@ -63,7 +63,7 @@ namespace Moka
       if(a == b) {
         std::stringstream message;
         message << "Expected anything but " << R(rep(b)) << " but got " << R(rep(a));
-        throw new Violation(f, l, message.str());
+        throw new Failure(f, l, message.str());
       }
     }
 
@@ -79,12 +79,12 @@ namespace Moka
       catch(std::exception& e) {
         std::stringstream message;
         message << "Expected to catch a " << G(type) << " but got " << R(e.what());
-        throw new Violation(f, l, message.str());
+        throw new Failure(f, l, message.str());
       }
 
       std::stringstream message;
       message << "Expected to catch a " << G(type) << " but nothing was thrown!";
-      throw new Violation(f, l, message.str());
+      throw new Failure(f, l, message.str());
     }
   }
 }
