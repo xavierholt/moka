@@ -4,6 +4,7 @@
 #include "util.h"
 
 #include <exception>
+#include <functional>
 #include <sstream>
 #include <string>
 
