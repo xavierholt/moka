@@ -2,6 +2,8 @@
 #define MOKA_UTIL_H
 
 #include <sstream>
+#include <string>
+#include <vector>
 
 namespace Moka
 {

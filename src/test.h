@@ -2,7 +2,9 @@
 #define MOKA_TEST_H
 
 #include "must.h"
+#include "util.h"
 
+#include <exception>
 #include <functional>
 #include <iostream>
 #include <string>
