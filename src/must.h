@@ -3,6 +3,7 @@
 
 #include "util.h"
 
+#include <cstring>
 #include <exception>
 #include <functional>
 #include <sstream>
@@ -41,6 +42,14 @@ namespace Moka
     template <class A, class B>
     void equal(const char* f, int l, const A& a, const B& b) {
       if(a != b) {
+        std::stringstream message;
+        message << "Expected " << cli::g(b) << " but got " << cli::r(a);
+        throw new Failure(f, l, message.str());
+      }
+    }
+
+    void equal(const char* f, int l, const char* a, const char* b) {
+      if(strcmp(a, b) != 0) {
         std::stringstream message;
         message << "Expected " << cli::g(b) << " but got " << cli::r(a);
         throw new Failure(f, l, message.str());
