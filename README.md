@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/xavierholt/moka.svg)](https://travis-ci.org/xavierholt/moka)
+
 # Moka
 A simple C++ test framework  inspired by [Mocha](https://mochajs.org/) and named
 after [my coffee maker](https://en.wikipedia.org/wiki/Moka_pot).
