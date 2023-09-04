@@ -4,12 +4,15 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <iomanip>
 
 namespace Moka
 {
   // Representation helpers for types that print funny:
-  template<class T> const T& rep(const T& t) {
-    return t;
+  template<class T> std::string rep(const T& t) {
+    std::stringstream result;
+    result << std::fixed << std::setprecision(7) << t;
+    return result.str();
   }
 
   const char* rep(bool b) {
@@ -33,11 +36,23 @@ namespace Moka
 
   namespace cli {
     template <class T>
+    
+    #ifdef __linux__
     std::string color(const T& t, int c, bool bold = false) {
+    #endif
+    #ifndef __linux__
+      std::string color(const T & t, int, bool = false) {
+    #endif
       std::stringstream result;
-      result << "\e[" << c;
+      #ifdef __linux__
+      result << "\033[" << c;
       if(bold) result << ";1";
-      result << 'm' << rep(t) << "\e[0m";
+      result << 'm';
+      #endif
+      result << rep(t);
+      #ifdef __linux__
+      result << "\033[0m";
+      #endif
       return result.str();
     }
 
